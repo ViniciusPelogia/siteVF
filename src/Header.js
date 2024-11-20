@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'; // Importe o Link do react-router-dom
 
 const Header = () => {
     const [isScrolled, setIsScrolled] = useState(false); // Estado para controlar o scroll
@@ -52,18 +53,6 @@ const Header = () => {
                         <a href="#" className="flex items-center space-x-3">
                             <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Logo" />
                             <span className="self-center text-2xl font-semibold whitespace-nowrap">LOGO DA EMPRESA</span>
-
-                            {/* Barra de pesquisa responsiva */}
-                            {/* <div className="relative flex items-center w-full max-w-xs sm:max-w-md">
-                                <svg className="absolute w-5 h-5 text-gray-400 left-3" fill="none" stroke="currentColor"
-                                    strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path strokeLinecap="round" strokeLinejoin="round"
-                                        d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z">
-                                    </path>
-                                </svg>
-                                <input type="text" placeholder="Buscar"
-                                    className="w-full px-4 py-2 pl-10 border border-gray-300 rounded-full focus:ring-green-500 focus:border-green-500 focus:outline-none" />
-                            </div> */}
                         </a>
 
                         {/* Botão de menu */}
@@ -96,14 +85,19 @@ const Header = () => {
                         <div className={`md:block w-full md:w-auto transition-all duration-500 ease-in-out transform ${isMenuOpen ? "block" : "hidden"}`} id="navbar-dropdown">
                             <ul className="flex flex-col p-4 mt-4 font-medium border border-gray-100 rounded-lg md:p-0 bg-gray-50 md:space-x-8 md:flex-row md:mt-0 md:border-0 md:bg-white">
                                 <li>
-                                    <a href="#" className="block px-3 py-2 text-gray-900 transition-all transition rounded hover:bg-green-700 md:bg-transparent md:text-green-700 md:p-0 hover:text-white hover:underline hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-green-700 hover:scale-105">
-                                        Produtos
-                                    </a>
+                                    <Link to="/" className="block px-3 py-2 text-gray-900 transition-all transition rounded hover:bg-green-700 md:bg-transparent md:text-green-700 md:p-0 hover:text-white hover:underline hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-green-700 hover:scale-105">
+                                        Destaques
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a href="#" className="block px-3 py-2 text-gray-900 transition-all transition rounded hover:bg-green-700 md:bg-transparent md:text-green-700 md:p-0 hover:text-white hover:underline hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-green-700 hover:scale-105">
+                                    <Link to="/produtos" className="block px-3 py-2 text-gray-900 transition-all transition rounded hover:bg-green-700 md:bg-transparent md:text-green-700 md:p-0 hover:text-white hover:underline hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-green-700 hover:scale-105">
+                                        Produtos
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/about" className="block px-3 py-2 text-gray-900 transition-all transition rounded hover:bg-green-700 md:bg-transparent md:text-green-700 md:p-0 hover:text-white hover:underline hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-green-700 hover:scale-105">
                                         Sobre nós
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </div>
