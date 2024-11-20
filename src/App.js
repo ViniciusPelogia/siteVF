@@ -36,7 +36,7 @@ const App = () => {
       ></div>
 
       {/* Header */}
-      <header className={`sticky p-8 transition-all duration-300 ${isScrolled ? "bg-transparent" : ""}`}>
+      <header className={`sticky pt-8 px-8 pb-4 transition-all duration-300 ${isScrolled ? "bg-transparent" : ""}`}>
         <nav className={`bg-white border-gray-200 rounded-2xl shadow-md sticky top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? "shadow-lg" : ""}`}>
           <div className="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
             <a href="#" className="flex items-center space-x-3">
@@ -86,15 +86,32 @@ const App = () => {
       </header>
 
       {/* Main */}
-      <main className="relative z-10 p-10">
-        <div className="bg-white">
-          <h1 className="text-4xl text-white">Conteúdo Principal</h1>
-          <p className="text-white"></p>
+      <main className="relative">
+        <div className="container px-6 mx-auto mt-4 min-w-3/4">
+          <div className="p-6 bg-white rounded-lg shadow-lg">
+            <div className="flex flex-col gap-6 lg:flex-row">
+              <aside className="p-4 bg-white shadow-md lg:w-1/4 rounded-2xl">
+                <h2 className="text-lg font-bold text-gray-800">Filtros</h2>
+                <div className="mt-4">
+                  {/* a gente coloca as opcoes aqui, sempre dentro de um mt-4 */}
+                </div>
+                <button
+                  class="mt-6 w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition">
+                  Aplicar filtro
+                </button>
+              </aside>
+
+              {/* PRODUTOS */}
+              <section className="lg:w-3/4">
+                <div className="grid grid-cols-2 md:grid-cols-3"></div>
+              </section>
+            </div>
+          </div>
         </div>
       </main>
-      <footer class="bg-white shadow dark:bg-gray-900 m-4 rounded-lg">
-        <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
-          <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <a href="" class="hover:underline">Logo da empresa</a>. All Rights Reserved.</span>
+      <footer class="bg-white shadow dark:bg-gray-900 m-10 rounded-2xl">
+        <div class="w-full max-w-screen-xl mx-auto p-2 md:py-8">
+          <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2024 <a href="" class="hover:underline">Nome da empresa</a>. Todos os Direitos Reservados.</span>
         </div>
       </footer>
     </div>
