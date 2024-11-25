@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; // Importe o Link do react-router-dom
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+    const navigate = useNavigate();
     const [isScrolled, setIsScrolled] = useState(false); // Estado para controlar o scroll
     const [isMenuOpen, setIsMenuOpen] = useState(false); // Estado para o menu burger
     const [currentImageIndex, setCurrentImageIndex] = useState(0); // Estado para o índice da imagem
@@ -50,7 +52,13 @@ const Header = () => {
             <header className={`sticky pt-8 px-8 pb-4 transition-all duration-300 ${isScrolled ? "bg-transparent" : ""}`}>
                 <nav className={`bg-white border-gray-200 rounded-2xl shadow-md sticky top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? "shadow-md-lg" : ""}`}>
                     <div className="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
-                        <a href="#" className="flex items-center space-x-3">
+                        <a
+                            href="#"
+                            onClick={(e) => {
+                                e.preventDefault(); // Evita o comportamento padrão do link
+                                navigate("/"); // Redireciona para a rota "/"
+                            }}
+                            className="flex items-center space-x-3">
                             <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Logo" />
                             <span className="self-center text-2xl font-semibold whitespace-nowrap">LOGO DA EMPRESA</span>
                         </a>
@@ -85,7 +93,7 @@ const Header = () => {
                         <div className={`md:block w-full md:w-auto transition-all duration-500 ease-in-out transform ${isMenuOpen ? "block" : "hidden"}`} id="navbar-dropdown">
                             <ul className="flex flex-col p-4 mt-4 font-medium border border-gray-100 rounded-lg md:p-0 bg-gray-50 md:space-x-8 md:flex-row md:mt-0 md:border-0 md:bg-white">
                                 <li>
-                                    <Link to="/destaques" className="block px-3 py-2 text-gray-900 transition-all transition rounded hover:bg-green-700 md:bg-transparent md:text-green-700 md:p-0 hover:text-white hover:underline hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-green-700 hover:scale-105">
+                                    <Link to="/" className="block px-3 py-2 text-gray-900 transition-all transition rounded hover:bg-green-700 md:bg-transparent md:text-green-700 md:p-0 hover:text-white hover:underline hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-green-700 hover:scale-105">
                                         Destaques
                                     </Link>
                                 </li>
