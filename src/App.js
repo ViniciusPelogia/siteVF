@@ -6,7 +6,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { FaWhatsapp } from "react-icons/fa";
 
-import Produtos from "./Produtos";
+import produtos from "./produtos";
 import Sobre from "./Sobre";
 import Destaques from "./Destaques";
 
@@ -28,7 +28,7 @@ const App = () => {
       <Routes>
         {/* Definindo as rotas para as páginas */}
         <Route path="/destaques" element={<Destaques />} />
-        <Route path="/produtos" element={<Produtos />} />
+        <Route path="/produtos" element={<produtos />} />
         <Route path="/sobre" element={<Sobre />} />
       </Routes>
       <Footer />

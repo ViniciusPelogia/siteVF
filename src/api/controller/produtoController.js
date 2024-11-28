@@ -1,24 +1,121 @@
-const database = require("../models");
-const uuidv4 = require('uuid')
+const database = require("../models/");
+const { v4: uuidv4 } = require("uuid");
+const path = require("path");
 
 module.exports = class ProdutoController {
   static async criaProduto(req, res) {
     const { nome, descricao, link } = req.body;
+    const file = req.file; // Corrigi a extração do 'file'
     try {
-        const produto = await database.produtos.create({
-            id: uuidv4(),
-            nome: nome,
-            descricao: descricao,
-            link: link
-        })
+      const produto = await database.produtos.create({
+        id: uuidv4(),
+        nome: nome,
+        descricao: descricao,
+        link: link,
+      });
 
-        const imagem = await database.imagens.create({
-            id: uuidv4(),
-            caminho: 
-        })
+      res.status(202).json(produto); // Responda com um objeto JSON
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  }
 
+  static async criaImagem(req, res) {
+    const { id } = req.params;
+    const { file } = req;
+    console.log("ID do Produto:", id);
+    console.log("Arquivo:", file);
+    try {
+      const produtoExiste = await database.produtos.findByPk(id);
+      if (!produtoExiste) {
+        throw new Error("Produto não encontrado");
+      }
+      const imagem = await database.imagens.create({
+        id: uuidv4(),
+        caminho: file.path,
+        product_id: produtoExiste.id,
+      });
+      res.status(202).json(imagem);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  }
+
+  static async buscaTodosprodutos(req, res) {
+    try {
+      const produtos = await database.imagensXprodutos.findAll()
+      // const produtos = await database.produtos.findAll()
+      // const produtos = await database.produtos.findAll({
+      //   include: [
+      //     {
+      //       model: database.imagensXprodutos,
+      //       as: "imagensXprodutos",
+      //       attributes: ["imagem_id"], // Incluindo apenas o ID da imagem
+      //       order: [["createdAt", "ASC"]], // Ordenando pela data de criação
+      //       limit: 1,
+      //     },
+      //   ],
+      // });
+      res.status(200).json(produtos);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  }
+
+  static async buscaProdutoPorId(req, res) {
+    const { id } = req.params;
+    try {
+      const produto = await database.produtos.findOne({
+        where: {
+          id: id,
+        },
+        include: [
+          {
+            model: database.imagens,
+            as: "imagens",
+            attributes: ["id"],
+            order: [["createdAt", "ASC"]],
+          },
+        ],
+      });
+
+      res.status(200).json(produto);
     } catch (error) {
       res.status(400).json(error.message);
     }
   }
+
+  static async atualizaProduto(req, res) {
+    const { id } = req.params;
+    const { nome, descricao, link } = req.body;
+    try {
+      const produto = await database.produtos.findByPk(id);
+      if (produto) {
+        produto.nome = nome;
+        produto.descricao = descricao;
+        produto.link = link;
+        await produto.save();
+      }
+
+      res.status(200).json(produto);
+    } catch (error) {
+      res.status(400).json(error.message);
+    }
+  }
+
+  static async excluiProduto(req, res) {
+    try {
+      const { id } = req.params;
+
+      await database.produtos.destroy({
+        where: {
+          id: id,
+        },
+      });
+    } catch (error) {
+      res.status(400).json(error.message);
+    }
+  }
+
+  static async excluiImagem(req, res) {}
 };
