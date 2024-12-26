@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   imagens.associate = models => {
-    imagens.hasMany(models.imagensXprodutos, {
+    imagens.hasMany(models.imagensxprodutos, {
       foreignKey: 'imagem_id'
     });
   };

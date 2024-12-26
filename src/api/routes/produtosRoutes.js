@@ -10,6 +10,6 @@ router
     .post('/produto', produtoController.criaProduto)
     .post('/imagem/:id', upload.single('file'), produtoController.criaImagem)
     .put('/produto', )
-    .delete('/produto')
+    .delete('/produto/:id', produtoController.excluiProduto)
 
 module.exports = router;

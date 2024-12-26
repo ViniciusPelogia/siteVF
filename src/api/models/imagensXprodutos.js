@@ -1,24 +1,17 @@
 module.exports = (sequelize, DataTypes) => {
-    const imagensXprodutos = sequelize.define(
-      "imagensXprodutos",
+    const imagensxprodutos = sequelize.define(
+      "imagensxprodutos",
       {
         imagem_id: {
           type: DataTypes.UUID,
-          primaryKey: true,
           allowNull: false,
-          references: {
-            model: "imagens",
-            key: "id",
-          },
+          primaryKey: true,
         },
         product_id: {
           type: DataTypes.UUID,
-          primaryKey: true,
           allowNull: false,
-          references: {
-            model: "produtos",
-            key: "id",
-          },
+          primaryKey: true,
+        
         },
         createdAt: {
           type: DataTypes.DATE,
@@ -32,20 +25,20 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       {
-        tableName: "imagensXprodutos",
+        tableName: "imagensxprodutos",
         timestamps: true,
       }
     );
   
-    imagensXprodutos.associate = models => {
-      imagensXprodutos.belongsTo(models.imagens, {
+    imagensxprodutos.associate = models => {
+      imagensxprodutos.belongsTo(models.imagens, {
         foreignKey: "imagem_id",
       });
-      imagensXprodutos.belongsTo(models.produtos, {
+      imagensxprodutos.belongsTo(models.produtos, {
         foreignKey: "product_id",
       });
     };
   
-    return imagensXprodutos;
+    return imagensxprodutos;
   };
   
