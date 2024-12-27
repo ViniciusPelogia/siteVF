@@ -1,31 +1,41 @@
 module.exports = (sequelize, DataTypes) => {
-    const Produtos = sequelize.define('Produtos', {
-      id: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
-        primaryKey: true
-      },
-      nome: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      descricao: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      link: {
-        type: DataTypes.STRING,
-        allowNull: false
-      }
-    }, {
-      tableName: 'produtos',
-      timestamps: false
+  const produtos = sequelize.define('produtos', {
+    id: {
+      type: DataTypes.UUID,
+      primaryKey: true
+    },
+    nome: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    descricao: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    link: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
+    }
+  }, {
+    tableName: 'produtos',
+    timestamps: true
+  });
+
+  produtos.associate = models => {
+    produtos.hasMany(models.imagensxprodutos, {
+      foreignKey: 'product_id'
     });
-  
-    Produtos.associate = models => {
-      Produtos.hasMany(models.Imagens, { foreignKey: 'productId', as: 'imagens' });
-    };
-  
-    return Produtos;
   };
-  
+
+  return produtos;
+};

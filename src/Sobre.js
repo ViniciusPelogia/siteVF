@@ -1,6 +1,7 @@
 import React from 'react'
 
 const Sobre = () => {
+
   return (
     <div className="relative min-h-screen">
       <div className="container px-6 mx-auto mt-4">
@@ -38,3 +39,4 @@ const Sobre = () => {
 }
 
 export default Sobre
+
