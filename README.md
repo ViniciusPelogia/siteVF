@@ -54,19 +54,21 @@ Aprenda mais na documentação oficial do Create React App e React:
 ## 📁 Estrutura do Projeto
 
 ```plaintext
-my-app/
+Projeto2/
 ├── node_modules/
 ├── public/
 ├── src/
 │   ├── components/     # Componentes reutilizáveis
-│   ├── assets/         # Arquivos estáticos (imagens, fontes, etc.)
+│   ├── pages/          # Páginas da aplicação
+│   ├── services/       # Serviços e APIs
+│   ├── utils/          # Funções utilitárias
 │   ├── App.js          # Componente principal
 │   ├── index.js        # Ponto de entrada do React
 │   └── styles/         # Estilos globais e específicos
 ├── .gitignore
 ├── package.json
 ├── README.md
-└── yarn.lock
+└── LICENSE
 ```
 
 ## 📦 Dependências Principais
