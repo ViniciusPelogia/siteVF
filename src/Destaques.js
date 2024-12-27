@@ -17,8 +17,8 @@ const Destaques = () => {
 
     return (
         <>
-            <main className="relative">
-                <div className="container px-6 mx-auto mt-4 min-w-3/4">
+            <main className="relative min-h-screen">
+                <div className="container px-6 mx-auto mt-4">
                     <div className="p-6 bg-white shadow-md rounded-2xl">
                         <div className="flex flex-col gap-6 lg:flex-row">
                             <aside className="p-4 bg-white shadow-md lg:w-1/4 rounded-2xl">

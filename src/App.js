@@ -9,6 +9,8 @@ import { FaWhatsapp } from "react-icons/fa";
 import produtos from "./produtos";
 import Sobre from "./Sobre";
 import Destaques from "./Destaques";
+import Inicio from "./Inicio";
+import DetalhesProduto from "./DetalhesProduto";
 
 const App = () => {
   const [isScrolled, setIsScrolled] = useState(false); // Estado para controlar o scroll
@@ -27,9 +29,11 @@ const App = () => {
       <Header />
       <Routes>
         {/* Definindo as rotas para as páginas */}
+        <Route path="/" element={<Inicio />} />
         <Route path="/destaques" element={<Destaques />} />
         <Route path="/produtos" element={<produtos />} />
         <Route path="/sobre" element={<Sobre />} />
+        <Route path="/detalhes/:id" element={<DetalhesProduto />} /> {/* Página de detalhes */}
       </Routes>
       <Footer />
     </Router>
