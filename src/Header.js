@@ -35,7 +35,7 @@ const Header = () => {
     };
 
     return (
-        <div>
+        <div className="select-none">
             {/* Imagem de fundo */}
             <div
                 className="absolute top-0 left-0 w-full h-full transition-all duration-1000 bg-center bg-cover"
@@ -99,7 +99,7 @@ const Header = () => {
                                 </li>
                                 <li>
                                     <Link to="/produtos" className="block px-3 py-2 text-gray-900 transition-all transition rounded hover:bg-green-700 md:bg-transparent md:text-green-700 md:p-0 hover:text-white hover:underline hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-green-700 hover:scale-105">
-                                        produtos
+                                        Produtos
                                     </Link>
                                 </li>
                                 <li>

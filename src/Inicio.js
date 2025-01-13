@@ -13,35 +13,35 @@ const Inicio = () => {
     return (
         <>
             <main className="relative">
-                <div className="container px-6 mx-auto mt-4 w-full">
+                <div className="container w-full px-6 mx-auto mt-4">
                     <div className="p-6 bg-white shadow-md rounded-2xl">
-                        <h2 className="text-2xl font-bold text-green-600 mb-6">Destaques</h2>
+                        <h2 className="mb-6 text-2xl font-bold text-green-600">Destaques</h2>
                         <div className="flex flex-col gap-12">
                             {produtos.map((produto) => (
                                 <div
                                     key={produto.id}
-                                    className="flex flex-col lg:flex-row items-center bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden"
+                                    className="flex flex-col items-center overflow-hidden bg-white border border-gray-200 rounded-lg shadow-xl lg:flex-row"
                                 >
                                     {/* Imagem no lado esquerdo */}
                                     <img
-                                        className="w-full lg:w-96 h-96 object-cover rounded-lg"
-                                        src="https://via.placeholder.com/600"
+                                        className="object-cover w-full rounded-lg lg:w-96 h-96"
+                                        src="https://placehold.co/600"
                                         alt={`Imagem do ${produto.nome}`}
                                     />
                                     {/* Conteúdo no lado direito */}
-                                    <div className="p-6 flex-1 w-full lg:w-96">
-                                        <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                                    <div className="flex-1 w-full p-6 lg:w-96">
+                                        <h3 className="mb-4 text-2xl font-bold text-gray-800">
                                             {produto.nome}
                                         </h3>
-                                        <p className="text-lg text-gray-600 mb-6">{produto.descricao}</p>
+                                        <p className="mb-6 text-lg text-gray-600">{produto.descricao}</p>
                                         <div className="flex flex-wrap gap-4">
                                             <button
                                                 onClick={() => navigate(`/detalhes/${produto.id}`)}
-                                                className="px-6 py-3 w-full lg:w-auto text-center text-white bg-teal-600 rounded-lg hover:bg-teal-700"
+                                                className="w-full px-6 py-3 text-center text-white bg-teal-600 rounded-lg lg:w-auto hover:bg-teal-700"
                                             >
                                                 Detalhes
                                             </button>
-                                            <button className="px-6 py-3 w-full lg:w-auto text-center text-white bg-green-600 rounded-lg flex items-center justify-center hover:bg-green-700">
+                                            <button className="flex items-center justify-center w-full px-6 py-3 text-center text-white bg-green-600 rounded-lg lg:w-auto hover:bg-green-700">
                                                 <FaWhatsapp className="mr-2" /> WhatsApp
                                             </button>
                                         </div>
