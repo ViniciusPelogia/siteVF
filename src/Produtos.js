@@ -1,6 +1,19 @@
 import { FaWhatsapp } from "react-icons/fa";
 
 const Produtos = () => {
+  // Array com dados dos produtos
+  const produtos = [
+    { nome: "Produto 1", imagem: "https://placehold.co/150" },
+    { nome: "Produto 2", imagem: "https://placehold.co/150" },
+    { nome: "Produto 3", imagem: "https://placehold.co/150" },
+    { nome: "Produto 4", imagem: "https://placehold.co/150" },
+  ];
+
+  const handleWhatsApp = () => {
+    // Aqui precisa colocar o zapzap e o recado qdo entrar em contato 
+    window.open("https://wa.me/SEU_NUMERO?text=Olá,%20quero%20saber%20mais%20sobre%20o%20produto.", "_blank");
+  };
+
   return (
     <>
       <main className="relative min-h-screen">
@@ -17,26 +30,33 @@ const Produtos = () => {
                 </button>
               </aside>
 
-              {/* PRODUTOS */}
+              {/* Grid de Produtos */}
               <section className="lg:w-3/4">
                 <div className="grid grid-cols-2 gap-6 md:grid-cols-3 xl:grid-cols-4">
-                  {/* Produto 1 */}
-                  <div className="flex flex-col items-center p-4 bg-white shadow-md rounded-2xl">
-                    <div className="flex items-center justify-center w-full h-32 mb-4 bg-gray-200">
-                      {/* Aqui você pode colocar uma imagem de produto */}
+                  {/* Mapeando os produtos */}
+                  {produtos.map((produto, index) => (
+                    <div
+                      key={index}
+                      className="flex flex-col items-center p-4 bg-white shadow-md rounded-2xl"
+                    >
+                      <div className="flex items-center justify-center w-full h-32 mb-4 bg-gray-200">
+                        <img src={produto.imagem} alt={produto.nome} className="object-cover w-full h-full rounded-lg" />
+                      </div>
+                      <h3 className="font-medium text-center text-black">{produto.nome}</h3>
+                      <div className="flex flex-col w-full gap-2 mt-4">
+                        <button className="w-full px-4 py-2 text-sm font-bold text-white transition bg-blue-500 rounded hover:bg-blue-600">
+                          Detalhes
+                        </button>
+                        <button
+                          onClick={handleWhatsApp}
+                          className="flex items-center justify-center w-full gap-2 px-4 py-2 text-sm font-bold text-white transition bg-green-500 rounded hover:bg-green-600"
+                        >
+                          <FaWhatsapp className="w-4 h-4" />
+                          WhatsApp
+                        </button>
+                      </div>
                     </div>
-                    <h3 className="font-medium text-center text-black">Nome do produto</h3>
-                    <div className="flex flex-col w-full gap-2 mt-4">
-                      <button className="w-full px-4 py-2 text-sm font-bold text-white transition bg-blue-500 rounded hover:bg-blue-600">
-                        Detalhes
-                      </button>
-                      <button className="flex items-center justify-center w-full gap-2 px-4 py-2 text-sm font-bold text-white transition bg-green-500 rounded hover:bg-green-600">
-                        <FaWhatsapp className="w-4 h-4" />
-                        WhatsApp
-                      </button>
-                    </div>
-                  </div>
-                  {/* Repita para outros produtos */}
+                  ))}
                 </div>
               </section>
             </div>
