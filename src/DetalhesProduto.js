@@ -1,21 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 import { FaWhatsapp } from "react-icons/fa";
 
 const DetalhesProduto = () => {
-  const imagens = [
-    "https://via.placeholder.com/300",
-    "https://via.placeholder.com/300",
-    "https://via.placeholder.com/300",
-  ];
+  const { id } = useParams();
+  const [produto, setProduto] = useState(null);
+  const [imagemAtual, setImagemAtual] = useState(0);
 
-  const [imagemAtual, setImagemAtual] = React.useState(0);
+  useEffect(() => {
+    const fetchProduto = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/produto/${id}`);
+        setProduto(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar o produto:", error);
+      }
+    };
+
+    fetchProduto();
+  }, [id]);
+
+  if (!produto) {
+    return <div>Carregando...</div>;
+  }
 
   const handleImagemAnterior = () => {
-    setImagemAtual((prev) => (prev === 0 ? imagens.length - 1 : prev - 1));
+    setImagemAtual((prev) => (prev === 0 ? produto.imagens.length - 1 : prev - 1));
   };
 
   const handleImagemProxima = () => {
-    setImagemAtual((prev) => (prev === imagens.length - 1 ? 0 : prev + 1));
+    setImagemAtual((prev) => (prev === produto.imagens.length - 1 ? 0 : prev + 1));
   };
 
   return (
@@ -23,7 +38,7 @@ const DetalhesProduto = () => {
       <div className="container px-6 mx-auto mt-8 w-full">
         <div className="p-6 bg-white shadow-md rounded-2xl">
           {/* Nome do Produto */}
-          <h2 className="text-3xl font-bold text-gray-800 mb-6">Nome do Produto</h2>
+          <h2 className="text-3xl font-bold text-gray-800 mb-6">{produto.nome}</h2>
 
           {/* Container Principal */}
           <div className="flex flex-col lg:flex-row items-start gap-6">
@@ -33,7 +48,7 @@ const DetalhesProduto = () => {
               <div className="relative">
                 <img
                   className="w-80 h-80 object-cover rounded-lg border border-gray-200"
-                  src={imagens[imagemAtual]}
+                  src={`/${produto.imagens[imagemAtual]}`}
                   alt={`Imagem ${imagemAtual + 1}`}
                 />
                 {/* Botões de Navegação */}
@@ -53,15 +68,13 @@ const DetalhesProduto = () => {
 
               {/* Miniaturas */}
               <div className="flex gap-2 mt-4">
-                {imagens.map((imagem, index) => (
+                {produto.imagens.map((caminho, index) => (
                   <img
                     key={index}
-                    src={imagem}
+                    src={`/${caminho}`}
                     alt={`Miniatura ${index + 1}`}
                     className={`w-16 h-16 object-cover border-2 ${
-                      index === imagemAtual
-                        ? "border-green-600"
-                        : "border-gray-300"
+                      index === imagemAtual ? "border-green-600" : "border-gray-300"
                     } rounded-lg cursor-pointer`}
                     onClick={() => setImagemAtual(index)}
                   />
@@ -72,11 +85,7 @@ const DetalhesProduto = () => {
             {/* Seção de Descrição */}
             <div className="flex-1">
               <h3 className="text-xl font-semibold text-gray-800 mb-4">Descrição do Produto</h3>
-              <p className="text-gray-600 mb-6">
-                Esta é uma descrição detalhada do produto. Aqui você pode adicionar
-                informações importantes como características, benefícios e outros
-                detalhes relevantes para o cliente.
-              </p>
+              <p className="text-gray-600 mb-6">{produto.descricao}</p>
               <button className="px-6 py-3 text-white bg-green-600 rounded-lg flex items-center justify-center hover:bg-green-700">
                 <FaWhatsapp className="mr-2" /> WhatsApp
               </button>

@@ -69,20 +69,38 @@ module.exports = class ProdutoController {
     const { id } = req.params;
     try {
       const produto = await database.produtos.findOne({
-        where: {
-          id: id,
-        },
-        include: [
-          {
-            model: database.imagens,
-            as: "imagens",
-            attributes: ["id"],
-            order: [["createdAt", "ASC"]],
-          },
-        ],
+        where: { id: id },
       });
 
-      res.status(200).json(produto);
+      if (!produto) {
+        return res.status(404).json({ message: "Produto não encontrado" });
+      }
+
+      const imagensxprodutos = await database.imagensxprodutos.findAll({
+        where: { product_id: id },
+        limit: 3, // Limitando a quantidade de imagens a 3
+      });
+
+      // Buscar os caminhos das imagens diretamente do banco de dados
+      const imagens = await Promise.all(
+        imagensxprodutos.map(async (ip) => {
+          const imagem = await database.imagens.findOne({
+            where: { id: ip.imagem_id },
+            attributes: ["caminho"],
+          });
+          return imagem ? imagem.caminho.replace(/\\/g, "/") : null; // Substituir backslashes por slashes
+        })
+      );
+
+      const resultado = {
+        id: produto.id,
+        nome: produto.nome,
+        link: produto.link,
+        descricao: produto.descricao,
+        imagens: imagens.filter((caminho) => caminho !== null), // Filtrar imagens nulas
+      };
+
+      res.status(200).json(resultado);
     } catch (error) {
       res.status(400).json(error.message);
     }

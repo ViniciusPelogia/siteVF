@@ -6,7 +6,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { FaWhatsapp } from "react-icons/fa";
 
-import produtos from "./produtos";
+import produtos from "./Produtos";
 import Sobre from "./Sobre";
 import Destaques from "./Destaques";
 import Inicio from "./Inicio";

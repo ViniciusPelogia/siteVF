@@ -20,13 +20,10 @@ module.exports = class DestaqueController {
 
   static async todosDestaques(req, res) {
     try {
-      // Obter todos os destaques
       const destaques = await database.destaques.findAll();
 
-      // Variável para armazenar os produtos em destaque com suas imagens
       const resultados = [];
 
-      // Iterar sobre cada destaque para buscar os detalhes do produto e suas imagens
       await Promise.all(
         destaques.map(async (destaque) => {
           const produto = await database.produtos.findOne({
@@ -35,17 +32,24 @@ module.exports = class DestaqueController {
 
           const imagensxprodutos = await database.imagensxprodutos.findAll({
             where: { product_id: destaque.product_id },
-            limit: 3, // Limitando a quantidade de imagens a 3
+            limit: 3,
           });
 
-          const imagens = imagensxprodutos.map((ip) => ip.imagem_id);
+          const imagens = await Promise.all(imagensxprodutos.map(async (ip) => {
+            const imagem = await database.imagens.findOne({
+              where: { id: ip.imagem_id },
+              attributes: ['caminho']
+            });
+            return imagem ? `/uploads/${path.basename(imagem.caminho)}` : null;
+          }));
+          
 
           resultados.push({
             id: produto.id,
             nome: produto.nome,
             link: produto.link,
             descricao: destaque.descricao,
-            imagens: imagens,
+            imagens: imagens.filter((caminho) => caminho !== null),
           });
         })
       );
