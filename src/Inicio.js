@@ -58,6 +58,7 @@ const Inicio = () => {
                             src={caminho}
                             alt={`Imagem do ${produto.nome}`}
                           />
+
                         </div>
                       ))}
                     </Carousel>
