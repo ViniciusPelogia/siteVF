@@ -55,10 +55,9 @@ const Inicio = () => {
                         <div key={index} className="h-96">
                           <img
                             className="w-full h-full object-cover rounded-lg"
-                            src={caminho}
+                            src={`http://localhost:5000${caminho}`} // Inclua o prefixo do servidor
                             alt={`Imagem do ${produto.nome}`}
                           />
-
                         </div>
                       ))}
                     </Carousel>

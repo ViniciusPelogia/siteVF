@@ -41,6 +41,7 @@ module.exports = class DestaqueController {
               attributes: ['caminho']
             });
             return imagem ? `/uploads/${path.basename(imagem.caminho)}` : null;
+
           }));
           
 

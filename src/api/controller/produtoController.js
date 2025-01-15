@@ -5,7 +5,6 @@ const path = require("path");
 module.exports = class ProdutoController {
   static async criaProduto(req, res) {
     const { nome, descricao, link } = req.body;
-    const file = req.file; // Corrigi a extração do 'file'
     try {
       const produto = await database.produtos.create({
         id: uuidv4(),
@@ -22,7 +21,7 @@ module.exports = class ProdutoController {
 
   static async criaImagem(req, res) {
     const { id } = req.params;
-    const { file } = req;
+    const file = req.file;
     console.log("ID do Produto:", id);
     console.log("Arquivo:", file);
     try {
@@ -30,6 +29,7 @@ module.exports = class ProdutoController {
       if (!produtoExiste) {
         throw new Error("Produto não encontrado");
       }
+
       const imagem = await database.imagens.create({
         id: uuidv4(),
         caminho: file.path,
@@ -48,18 +48,36 @@ module.exports = class ProdutoController {
 
   static async buscaTodosprodutos(req, res) {
     try {
-      const produtos = await database.produtos.findAll({
-        include: [
-          {
-            model: database.imagensxprodutos,
-            as: "imagensxprodutos",
-            attributes: ["imagem_id"], // Incluindo apenas o ID da imagem
-            order: [["createdAt", "ASC"]], // Ordenando pela data de criação
-            limit: 1,
-          },
-        ],
-      });
-      res.status(200).json(produtos);
+      const produtos = await database.produtos.findAll();
+
+      const produtosComImagens = await Promise.all(
+        produtos.map(async (produto) => {
+          const imagensxprodutos = await database.imagensxprodutos.findAll({
+            where: { product_id: produto.id },
+            limit: 1, // Limitando a quantidade de imagens a 1
+          });
+
+          const imagens = await Promise.all(
+            imagensxprodutos.map(async (ip) => {
+              const imagem = await database.imagens.findOne({
+                where: { id: ip.imagem_id },
+                attributes: ["caminho"],
+              });
+              return imagem ? path.basename(imagem.caminho) : null; // Retornar apenas o nome do arquivo
+            })
+          );
+
+          return {
+            id: produto.id,
+            nome: produto.nome,
+            link: produto.link,
+            descricao: produto.descricao,
+            imagem: imagens.filter((caminho) => caminho !== null)[0], // Usar a primeira imagem válida
+          };
+        })
+      );
+
+      res.status(200).json(produtosComImagens);
     } catch (error) {
       res.status(400).json({ error: error.message });
     }
@@ -78,7 +96,6 @@ module.exports = class ProdutoController {
 
       const imagensxprodutos = await database.imagensxprodutos.findAll({
         where: { product_id: id },
-        limit: 3, // Limitando a quantidade de imagens a 3
       });
 
       // Buscar os caminhos das imagens diretamente do banco de dados

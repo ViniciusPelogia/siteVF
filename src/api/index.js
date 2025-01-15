@@ -1,13 +1,20 @@
 const express = require("express");
 const cors = require("cors"); // Importa o middleware cors
-const path = require('path');
+const path = require("path");
 const routes = require("../api/routes/index.js");
 const sequelize = require("./config/database.js");
 
 const app = express();
 const port = 5000;
 
-app.use('/uploads', express.static(path.join(__dirname, 'src/api/uploads')));
+
+app.use("/uploads", express.static(path.join(__dirname, "../api/uploads")));
+app.use("/src/api/uploads", express.static(path.join(__dirname, "../api/uploads")));
+
+
+app.get("/", (req, res) => {
+  res.send("Servidor está funcionando!");
+});
 
 app.use(
   cors({
