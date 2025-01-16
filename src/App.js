@@ -5,9 +5,9 @@ import "./index.css";
 import Header from "./Header";
 import Footer from "./Footer";
 import { FaWhatsapp } from "react-icons/fa";
+import FloatingButton from "./floatingButton";  // Importe o FloatingButton
 
 import produtos from "./Produtos";
-
 import Sobre from "./Sobre";
 import Destaques from "./Destaques";
 import Inicio from "./Inicio";
@@ -38,6 +38,7 @@ const App = () => {
         <Route path="/detalhes/:id" element={<DetalhesProduto />} /> {/* Página de detalhes */}
       </Routes>
       <Footer />
+      <FloatingButton /> {/* Adicione o FloatingButton aqui */}
     </Router>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { FaWhatsapp } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight, FaWhatsapp } from "react-icons/fa";
 
 const DetalhesProduto = () => {
   const { id } = useParams();
@@ -23,9 +23,15 @@ const DetalhesProduto = () => {
     fetchProduto();
   }, [id]);
 
-  if (!produto) {
-    return <div>Carregando...</div>;
-  }
+  useEffect(() => {
+    if (produto) {
+      const interval = setInterval(() => {
+        setImagemAtual((prev) => (prev === produto.imagens.length - 1 ? 0 : prev + 1));
+      }, 3000);
+
+      return () => clearInterval(interval);
+    }
+  }, [produto]);
 
   const handleImagemAnterior = () => {
     setImagemAtual((prev) => (prev === 0 ? produto.imagens.length - 1 : prev - 1));
@@ -42,6 +48,10 @@ const DetalhesProduto = () => {
   const handleMiniaturasProxima = () => {
     setMiniaturaInicio((prev) => Math.min(prev + 3, produto.imagens.length - 3));
   };
+
+  if (!produto) {
+    return <div>Carregando...</div>;
+  }
 
   const miniaturasVisiveis = produto.imagens.slice(miniaturaInicio, miniaturaInicio + 3);
 
@@ -62,30 +72,31 @@ const DetalhesProduto = () => {
                   className="w-80 h-80 object-cover rounded-lg border border-gray-200"
                   src={`http://localhost:5000/${produto.imagens[imagemAtual]}`}
                   alt={`Imagem ${imagemAtual + 1}`}
+                  style={{ width: '320px', height: '320px' }} // Tamanho fixo: 320px x 320px
                 />
                 {/* Botões de Navegação */}
                 <button
                   onClick={handleImagemAnterior}
-                  className="absolute left-0 p-2 transform -translate-y-1/2 bg-gray-200 rounded-full shadow-md top-1/2 hover:bg-gray-300"
+                  className="absolute left-2 p-2 transform -translate-y-1/2 bg-green-600 rounded-full text-white top-1/2 hover:bg-green-700"
                 >
-                  {"<"}
+                  <FaArrowLeft />
                 </button>
                 <button
                   onClick={handleImagemProxima}
-                  className="absolute right-0 p-2 transform -translate-y-1/2 bg-gray-200 rounded-full shadow-md top-1/2 hover:bg-gray-300"
+                  className="absolute right-2 p-2 transform -translate-y-1/2 bg-green-600 rounded-full text-white top-1/2 hover:bg-green-700"
                 >
-                  {">"}
+                  <FaArrowRight />
                 </button>
               </div>
 
               {/* Miniaturas */}
-              <div className="flex gap-2 mt-4">
+              <div className="flex gap-2 mt-4 justify-center">
                 <button
                   onClick={handleMiniaturasAnterior}
                   disabled={miniaturaInicio === 0}
                   className="p-2 bg-gray-200 rounded-full shadow-md hover:bg-gray-300"
                 >
-                  {"<"}
+                  <FaArrowLeft />
                 </button>
                 {miniaturasVisiveis.map((caminho, index) => (
                   <img
@@ -103,7 +114,7 @@ const DetalhesProduto = () => {
                   disabled={miniaturaInicio + 3 >= produto.imagens.length}
                   className="p-2 bg-gray-200 rounded-full shadow-md hover:bg-gray-300"
                 >
-                  {">"}
+                  <FaArrowRight />
                 </button>
               </div>
             </div>

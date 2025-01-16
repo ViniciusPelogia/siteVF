@@ -10,18 +10,18 @@ const Produtos = () => {
   useEffect(() => {
     const fetchProdutos = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/produto');
-        console.log('Dados recebidos:', response.data); // Verifique os dados recebidos
+        const response = await axios.get("http://localhost:5000/produto");
+        console.log("Dados recebidos:", response.data); // Verifique os dados recebidos
 
         if (response.data && response.data.length > 0) {
-          const produtosComImagens = response.data.map(produto => ({
+          const produtosComImagens = response.data.map((produto) => ({
             ...produto,
-            imagem: `http://localhost:5000/uploads/${produto.imagem}`
+            imagem: `http://localhost:5000/uploads/${produto.imagem}`,
           }));
-          console.log('Produtos processados:', produtosComImagens); // Verifique os produtos processados
+          console.log("Produtos processados:", produtosComImagens); // Verifique os produtos processados
           setProdutos(produtosComImagens);
         } else {
-          console.warn('Nenhum produto encontrado na resposta da API');
+          console.warn("Nenhum produto encontrado na resposta da API");
         }
       } catch (error) {
         console.error("Erro ao buscar produtos:", error);
@@ -32,7 +32,10 @@ const Produtos = () => {
   }, []);
 
   const handleWhatsApp = () => {
-    window.open("https://wa.me/SEU_NUMERO?text=Olá,%20quero%20saber%20mais%20sobre%20o%20produto.", "_blank");
+    window.open(
+      "https://wa.me/SEU_NUMERO?text=Olá,%20quero%20saber%20mais%20sobre%20o%20produto.",
+      "_blank"
+    );
   };
 
   return (
@@ -62,16 +65,23 @@ const Produtos = () => {
                         className="flex flex-col items-center p-4 bg-white shadow-md rounded-2xl"
                       >
                         <div className="flex items-center justify-center w-full h-32 mb-4 bg-gray-200">
-                          <img src={produto.imagem} alt={produto.nome} className="object-cover w-full h-full rounded-lg" />
+                          <img
+                            src={produto.imagem}
+                            alt={produto.nome}
+                            className="object-cover w-full h-full rounded-lg"
+                          />
                         </div>
-                        <h3 className="font-medium text-center text-black">{produto.nome}</h3>
+                        <h3 className="font-medium text-center text-black">
+                          {produto.nome}
+                        </h3>
                         <div className="flex flex-col w-full gap-2 mt-4">
                           <button
                             onClick={() => navigate(`/detalhes/${produto.id}`)}
-                            className="w-full px-4 py-2 text-sm font-bold text-white transition bg-blue-500 rounded hover:bg-blue-600"
+                            className="w-full px-4 py-2 text-sm font-bold text-white bg-teal-600 rounded-md hover:bg-teal-700"
                           >
                             Detalhes
                           </button>
+
                           <button
                             onClick={handleWhatsApp}
                             className="flex items-center justify-center w-full gap-2 px-4 py-2 text-sm font-bold text-white transition bg-green-500 rounded hover:bg-green-600"

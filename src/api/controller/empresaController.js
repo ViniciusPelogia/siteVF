@@ -4,7 +4,7 @@ const path = require("path");
 
 module.exports = class empresaController {
   static async criaEmpresa(req, res) {
-    const { nome, descricao, instagram, telefone, cnpj } = req.body;
+    const { nome, descricao, instagram, telefone, cnpj, email } = req.body;
     const logo = req.file; // Corrigi a extração do 'file'
     try {
       const empresa = await database.empresa.create({
@@ -14,6 +14,7 @@ module.exports = class empresaController {
         instagram: instagram,
         telefone: telefone,
         cnpj: cnpj,
+        email: email,
         logo: logo.path,
       });
 
@@ -45,7 +46,7 @@ module.exports = class empresaController {
 
   static async buscaEmpresa(req, res) {
     try {
-      const empresa = await database.empresa.findByPk('86e964b9-25df-4f6e-aacd-70c6d2161772');
+      const empresa = await database.empresa.findByPk('b57007cd-9505-4ad0-b42c-0df3a2635c28');
       if (!empresa) {
         return res.status(404).json({ message: "Empresa não encontrada" });
       }
@@ -69,7 +70,11 @@ module.exports = class empresaController {
           id: empresa.id,
           nome: empresa.nome,
           descricao: empresa.descricao,
-          // Adicione outros campos que você quiser incluir
+          telefone: empresa.telefone,
+          instagram: empresa.instagram,
+          cnpj: empresa.cnpj,
+          email:empresa.email,
+          logo: empresa.logo ? empresa.logo.replace(/\\/g, "/") : null
         },
         imagens: imagens.filter(caminho => caminho !== null)
       };
