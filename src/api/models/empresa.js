@@ -14,7 +14,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       descricao: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
+        allowNull: false
+      },
+      endereco:{
+        type: DataTypes.TEXT,
         allowNull: false
       },
       cnpj:{

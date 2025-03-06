@@ -1,16 +1,20 @@
 const database = require("../models/");
 const { v4: uuidv4 } = require("uuid");
+const nodemailer = require("nodemailer");
 const path = require("path");
+require('dotenv').config();
 
 module.exports = class empresaController {
   static async criaEmpresa(req, res) {
-    const { nome, descricao, instagram, telefone, cnpj, email } = req.body;
+    const { nome, descricao, instagram, telefone, cnpj, email, endereco } =
+      req.body;
     const logo = req.file; // Corrigi a extração do 'file'
     try {
       const empresa = await database.empresa.create({
         id: uuidv4(),
         nome: nome,
         descricao: descricao,
+        endereco: endereco,
         instagram: instagram,
         telefone: telefone,
         cnpj: cnpj,
@@ -24,9 +28,64 @@ module.exports = class empresaController {
     }
   }
 
+  static async newsletter(req, res) {
+    const { nome, email, mensagem } = req.body;
+
+    try {
+      // Buscar o e-mail da empresa no banco de dados
+      const dadosEmpresa = await database.empresa.findOne();
+      if (!dadosEmpresa || !dadosEmpresa.email) {
+        return res
+          .status(404)
+          .json({ message: "E-mail da empresa não encontrado" });
+      }
+
+      // Configuração do Nodemailer com credenciais do .env
+      const transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST,
+        port: process.env.SMTP_PORT,
+        secure: false, // true para 465, false para outras portas
+        auth: {
+          user: process.env.SMTP_USER,
+          pass: process.env.SMTP_PASS,
+        },
+      });
+
+      // Configuração do e-mail
+      const mailOptions = {
+        from: `"${nome}" <${email}>`, // Nome e e-mail do remetente
+        to: dadosEmpresa.email, // E-mail da empresa
+        subject: "Mensagem via Newsletter",
+        text: `Você recebeu uma nova mensagem:
+        
+        Nome: ${nome}
+        Email: ${email}
+        Mensagem: ${mensagem}
+      `,
+        html: `
+          <h3>Você recebeu uma nova mensagem:</h3>
+          <p><strong>Nome:</strong> ${nome}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Mensagem:</strong> ${mensagem}</p>
+        `,
+      };
+
+      console.log(mailOptions)
+
+      // Envio do e-mail com async/await
+      const info = await transporter.sendMail(mailOptions);
+      console.log("E-mail enviado:", info.messageId);
+
+      return res.status(200).json({ message: "E-mail enviado com sucesso!" });
+    } catch (error) {
+      console.error("Erro ao enviar e-mail:", error);
+      return res.status(500).json({ error: "Erro ao enviar e-mail" });
+    }
+  }
+
   static async criaImagensEmpresa(req, res) {
     const { id } = req.params;
-    const file  = req.file;
+    const file = req.file;
 
     try {
       const imagem = await database.imagens.create({
@@ -46,25 +105,29 @@ module.exports = class empresaController {
 
   static async buscaEmpresa(req, res) {
     try {
-      const empresa = await database.empresa.findByPk('b57007cd-9505-4ad0-b42c-0df3a2635c28');
+      const empresa = await database.empresa.findByPk(
+        "120df7a6-959c-447c-90c9-3f32aeb236fc"
+      );
       if (!empresa) {
         return res.status(404).json({ message: "Empresa não encontrada" });
       }
-  
+
       const imagensxempresa = await database.imagensxempresa.findAll({
-        where: { empresa_id: empresa.id }
+        where: { empresa_id: empresa.id },
       });
-  
+
       const imagens = await Promise.all(
         imagensxempresa.map(async (ip) => {
           const imagem = await database.imagens.findOne({
             where: { id: ip.imagem_id },
-            attributes: ['caminho']
+            attributes: ["caminho"],
           });
-          return imagem ? path.basename(imagem.caminho).replace(/\\/g, '/') : null;
+          return imagem
+            ? path.basename(imagem.caminho).replace(/\\/g, "/")
+            : null;
         })
       );
-  
+
       const resultado = {
         empresa: {
           id: empresa.id,
@@ -72,19 +135,19 @@ module.exports = class empresaController {
           descricao: empresa.descricao,
           telefone: empresa.telefone,
           instagram: empresa.instagram,
+          endereco: empresa.endereco,
           cnpj: empresa.cnpj,
-          email:empresa.email,
-          logo: empresa.logo ? empresa.logo.replace(/\\/g, "/") : null
+          email: empresa.email,
+          logo: empresa.logo ? empresa.logo.replace(/\\/g, "/") : null,
         },
-        imagens: imagens.filter(caminho => caminho !== null)
+        imagens: imagens.filter((caminho) => caminho !== null),
       };
-  
+
       res.status(200).json(resultado);
     } catch (error) {
       res.status(400).json({ message: error.message });
     }
   }
-  
 
   static async atualizaEmpresa(req, res) {
     const { id } = req.params;

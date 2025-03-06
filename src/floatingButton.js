@@ -17,7 +17,7 @@ const FloatingButton = () => {
                 </div>
             )}
             <button
-                onClick={() => window.location.href = 'https://wa.me/your_number'} // Substitua 'your_number' pelo número do WhatsApp
+                onClick={() => window.location.href = 'https://wa.me/5512992173256'} // Substitua 'your_number' pelo número do WhatsApp
                 className="p-4 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 transition"
             >
                 <FaWhatsapp className="w-6 h-6" />

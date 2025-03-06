@@ -2,7 +2,8 @@ module.exports = (sequelize, DataTypes) => {
   const produtos = sequelize.define('produtos', {
     id: {
       type: DataTypes.UUID,
-      primaryKey: true
+      primaryKey: true,
+      defaultValue: DataTypes.UUIDV4
     },
     nome: {
       type: DataTypes.STRING,
@@ -12,8 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    link: {
-      type: DataTypes.STRING,
+    detalhes: {
+      type: DataTypes.TEXT,
       allowNull: false
     },
     createdAt: {
@@ -32,7 +33,13 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   produtos.associate = models => {
+    // Associação com imagensxprodutos (já existente)
     produtos.hasMany(models.imagensxprodutos, {
+      foreignKey: 'product_id'
+    });
+    // Associação com cores via produtosxcores (novidade)
+    produtos.belongsToMany(models.cores, {
+      through: models.produtosxcores,
       foreignKey: 'product_id'
     });
   };
