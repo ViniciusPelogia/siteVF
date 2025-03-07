@@ -2,7 +2,7 @@
   "development": {
     "username": "postgres",
     "password": "Flagrorural2025*",
-    "database": "site",
+    "database": "flagro_rural",
     "host": "localhost",
     "port":5432,
     "dialect": "postgres"
