@@ -106,7 +106,7 @@ module.exports = class empresaController {
   static async buscaEmpresa(req, res) {
     try {
       const empresa = await database.empresa.findByPk(
-        "120df7a6-959c-447c-90c9-3f32aeb236fc"
+        "e04b837d-4c6d-43ed-be6e-35d86937a90a"
       );
       if (!empresa) {
         return res.status(404).json({ message: "Empresa não encontrada" });
