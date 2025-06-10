@@ -22,6 +22,7 @@ const Inicio = () => {
     const fetchProdutos = async () => {
       try {
         const response = await axios.get(`${API_BASE_URL}/destaques`);
+        console.log(response.data)
         setProdutos(response.data);
       } catch (error) {
         console.error("Erro ao buscar produtos:", error);
