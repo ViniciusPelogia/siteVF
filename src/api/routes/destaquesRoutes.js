@@ -5,11 +5,11 @@ const destaqueController = require('../controller/destaqueController.js')
 const router = Router();
 
 router
-    .get('/destaques/', destaqueController.todosDestaques)
-    .get('/destaques/:id', destaqueController.buscarDestaquePorId)
-    .post('/destaques/', destaqueController.criaDestaque)
-    .put('/destaques/:id', destaqueController.updateDestaque)
-    .delete('/destaques/:id', destaqueController.deleteDestaque)
+    .get('/', destaqueController.todosDestaques)
+    .get('/:id', destaqueController.buscarDestaquePorId)
+    .post('/', destaqueController.criaDestaque)
+    .put('/:id', destaqueController.updateDestaque)
+    .delete('/:id', destaqueController.deleteDestaque)
 
 
 module.exports = router;

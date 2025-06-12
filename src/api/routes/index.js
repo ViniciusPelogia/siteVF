@@ -1,12 +1,12 @@
-const produtos = require('./produtosRoutes.js')
-const empresa = require('./empresaRoutes.js')
-const destaques = require('./destaquesRoutes.js')
+const { Router } = require('express')
+const produtos = require('./produtosRoutes')
+const empresa = require('./empresaRoutes')
+const destaques = require('./destaquesRoutes')
 
-module.exports = app =>{
-    app.use(
-        produtos,
-        destaques,
-        empresa
-    )
-};
+const router = Router()
 
+router.use('/destaques', destaques)
+router.use('/produtos', produtos)
+router.use('/empresa', empresa)
+
+module.exports = router
