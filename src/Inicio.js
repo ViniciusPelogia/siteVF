@@ -162,15 +162,17 @@ const Inicio = () => {
                           )
                         }
                       >
-                        {produto.imagens.map((caminho, index) => (
-                          <div key={index} className="h-80 lg:h-96">
+                        {produtos.map((produto) =>(
+                        produto.imagens.map((imagem, index) => (
+                          <div key={`${produto.id}-${index}`} className="h-80 lg:h-96">
                             <img
                               className="w-full h-full object-cover rounded-lg"
-                              src={`${API_BASE_URL}${caminho}`}
+                              src={`${API_BASE_URL}${imagem}`}
                               alt={`Imagem do ${produto.nome}`}
-                            />
+                              />
                           </div>
-                        ))}
+                        ))
+                      ))}
                       </Carousel>
                     </div>
                     <div className="p-4 sm:p-6 flex-1 w-full lg:w-96">
