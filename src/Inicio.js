@@ -21,7 +21,7 @@ const Inicio = () => {
   useEffect(() => {
     const fetchProdutos = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/destaques/api/`);
+        const response = await axios.get(`${API_BASE_URL}/api/destaques/`);
         console.log(response.data)
         setProdutos(response.data);
       } catch (error) {

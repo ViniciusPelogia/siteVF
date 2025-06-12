@@ -37,7 +37,7 @@ const Header = () => {
   useEffect(() => {
     const fetchLogo = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/empresa/api/`);
+        const response = await axios.get(`${API_BASE_URL}/api/empresa/`);
         setLogoUrl(response.data.empresa.logo);
         setNomeEmpresa(response.data.empresa.nome);
       } catch (error) {

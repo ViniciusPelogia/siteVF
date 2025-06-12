@@ -22,7 +22,7 @@ const Sobre = () => {
   useEffect(() => {
     const fetchEmpresa = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/empresa/api/`);
+        const response = await axios.get(`${API_BASE_URL}/api/empresa/`);
         setEmpresa(response.data.empresa);
         setImagens(response.data.imagens);
       } catch (error) {
@@ -57,7 +57,7 @@ const Sobre = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${API_BASE_URL}/newsletter`, formData);
+      await axios.post(`${API_BASE_URL}/api/newsletter/`, formData);
       alert("Mensagem enviada com sucesso!");
       setFormData({ nome: "", email: "", mensagem: "" });
     } catch (error) {
