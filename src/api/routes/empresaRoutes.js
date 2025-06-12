@@ -5,10 +5,10 @@ const upload = require('../config/multer')
 const router = Router();
 
 router
-    .get('/empresa', empresaController.buscaEmpresa)
-    .post('/empresa', upload.single('logo'), empresaController.criaEmpresa)
+    .get('/empresa/api/', empresaController.buscaEmpresa)
+    .post('/empresa/api/', upload.single('logo'), empresaController.criaEmpresa)
     .post('/newsletter', empresaController.newsletter)
-    .post('/empresa/imagem/:id', upload.single('file'), empresaController.criaImagensEmpresa)
+    .post('/empresa/api/imagem/:id', upload.single('file'), empresaController.criaImagensEmpresa)
     .post('/fundo', empresaController.criaFundo)
 
 module.exports = router;

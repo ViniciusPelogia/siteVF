@@ -22,7 +22,7 @@ const Sobre = () => {
   useEffect(() => {
     const fetchEmpresa = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/empresa`);
+        const response = await axios.get(`${API_BASE_URL}/empresa/api/`);
         setEmpresa(response.data.empresa);
         setImagens(response.data.imagens);
       } catch (error) {

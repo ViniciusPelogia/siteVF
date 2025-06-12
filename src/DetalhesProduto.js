@@ -18,7 +18,7 @@ const DetalhesProduto = () => {
   useEffect(() => {
     const fetchProduto = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/produto/${id}`);
+        const response = await axios.get(`${API_BASE_URL}/produto/api/${id}`);
         const produtoData = response.data;
         produtoData.imagensxprodutos = produtoData.imagensxprodutos || [];
         produtoData.cores = produtoData.cores || [];

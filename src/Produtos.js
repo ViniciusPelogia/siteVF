@@ -15,7 +15,7 @@ const Produtos = () => {
   useEffect(() => {
     const fetchProdutos = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/produto`);
+        const response = await axios.get(`${API_BASE_URL}/produto/api/`);
 
         if (response.data && response.data.length > 0) {
           const produtosComImagens = response.data.map((produto) => ({
