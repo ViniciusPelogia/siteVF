@@ -22,7 +22,6 @@ app.use(express.static(path.join(__dirname, "../../build")));
 
 // Servir imagens e uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use("/src/api/uploads", express.static(path.join(__dirname, "../api/uploads")));
 
 // ✅ Aplicar o prefixo /api a TODAS as rotas
 app.use("/api", routes);
