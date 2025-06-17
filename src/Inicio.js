@@ -162,18 +162,12 @@ const Inicio = () => {
                           )
                         }
                       >
-                        {produtos.map((produto) => (
-                          <div key={produto.id}>
-                            <h3>{produto.nome}</h3>
-                            {produto.imagens.map((imagem, index) => (
-                              <img
-                                key={index}
-                                src={`${API_BASE_URL}${imagem}`}
-                                alt={`Imagem ${index + 1}`}
-                                style={{ width: "200px" }}
-                              />
-                            ))}
-                          </div>
+                        {produto.imagens.map((imagem, index) => (
+                          <img
+                            key={index}
+                            src={`${API_BASE_URL}${imagem}`}
+                            alt={`Imagem ${index + 1}`}
+                          />
                         ))}
                       </Carousel>
                     </div>
