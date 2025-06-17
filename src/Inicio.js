@@ -22,7 +22,7 @@ const Inicio = () => {
     const fetchProdutos = async () => {
       try {
         const response = await axios.get(`${API_BASE_URL}/api/destaques/`);
-        console.log(response.data)
+        console.log(response.data);
         setProdutos(response.data);
       } catch (error) {
         console.error("Erro ao buscar produtos:", error);
@@ -162,17 +162,13 @@ const Inicio = () => {
                           )
                         }
                       >
-                        {produtos.map((produto) =>(
-                        produto.imagens.map((imagem, index) => (
-                          <div key={`${produto.id}-${index}`} className="h-80 lg:h-96">
-                            <img
-                              className="w-full h-full object-cover rounded-lg"
-                              src={`${API_BASE_URL}${imagem}`}
-                              alt={`Imagem do ${produto.nome}`}
-                              />
-                          </div>
-                        ))
-                      ))}
+                        {produto.imagens.map((imagem, index) => (
+                          <img
+                            key={index}
+                            src={`https://flagrorural.com.br${imagem}`}
+                            alt={`Imagem ${index + 1}`}
+                          />
+                        ))}
                       </Carousel>
                     </div>
                     <div className="p-4 sm:p-6 flex-1 w-full lg:w-96">
