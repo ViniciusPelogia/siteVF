@@ -17,11 +17,11 @@ app.use(cors({
   origin: [process.env.REACT_APP_API_BASE_URL || "http://localhost:3000"]
 }));
 
-// Servir arquivos estáticos do React
-app.use(express.static(path.join(__dirname, "../../build")));
-
 // Servir imagens e uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// Servir arquivos estáticos do React
+app.use(express.static(path.join(__dirname, "../../build")));
 
 // ✅ Aplicar o prefixo /api a TODAS as rotas
 app.use("/api", routes);
