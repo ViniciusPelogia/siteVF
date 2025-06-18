@@ -18,7 +18,9 @@ app.use(cors({
 }));
 
 // Servir imagens e uploads
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'api/uploads')));
+console.log('Servindo imagens de:', path.join(__dirname, 'api/uploads'));
+
 
 // Servir arquivos estáticos do React
 app.use(express.static(path.join(__dirname, "../../build")));
