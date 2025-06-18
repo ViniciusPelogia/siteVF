@@ -28,6 +28,11 @@ app.use(express.static(path.join(__dirname, "../../build")));
 // ✅ Aplicar o prefixo /api a TODAS as rotas
 app.use("/api", routes);
 
+app.get('/teste-imagem', (req, res) => {
+  res.sendFile(path.join(__dirname, 'api/uploads/1741308837041.jpeg'));
+});
+
+
 // Rota fallback para React Router (SPA)
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../../build", "index.html"));
