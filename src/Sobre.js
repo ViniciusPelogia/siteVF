@@ -169,7 +169,7 @@ const Sobre = () => {
           <div className="flex-1 bg-gray-100 p-6 rounded-lg">
             <h2 className="text-2xl font-bold text-green-600 mb-4">{empresa.nome}</h2>
             <img
-              src={`${API_BASE_URL}/${empresa.logo}`}
+              src={`${API_BASE_URL}${empresa.logo}`}
               alt="Logo da Empresa"
               className="w-28 h-28 object-contain rounded-lg mb-4 border border-gray-300"
             />
