@@ -15,7 +15,7 @@ const Produtos = () => {
   useEffect(() => {
     const fetchProdutos = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/api/produto/`);
+        const response = await axios.get(`${API_BASE_URL}/api/produtos/`);
         console.log("Resposta da API:", response.data)
 
         if (response.data && response.data.length > 0) {
