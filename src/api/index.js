@@ -18,19 +18,19 @@ app.use(cors({
 }));
 
 // Servir imagens e uploads
-app.use('/uploads', express.static(path.join(__dirname, 'api/uploads')));
+app.use('/uploads', express.static(path.join(__dirname, '../api/uploads')));
 console.log('Servindo imagens de:', path.join(__dirname, 'api/uploads'));
-
-
-// Servir arquivos estáticos do React
-app.use(express.static(path.join(__dirname, "../../build")));
 
 // ✅ Aplicar o prefixo /api a TODAS as rotas
 app.use("/api", routes);
 
+// Servir arquivos estáticos do React
+app.use(express.static(path.join(__dirname, "../../build")));
+
+
 // Rota fallback para React Router (SPA), mas ignora /uploads
-app.get(/^\/(?!uploads).*/, (req, res) => {
-  res.sendFile(path.join(__dirname, "../../build", "index.html"));
+app.get(/^\/(?!uploads|api).*/, (req, res) => {
+  res.sendFile(path.join(__dirname, '../../build', 'index.html'));
 });
 
 // Conectar ao banco e iniciar servidor
