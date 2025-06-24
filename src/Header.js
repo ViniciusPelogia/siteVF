@@ -89,7 +89,7 @@ const Header = () => {
                 className="flex items-center"
               >
                 <img
-                  src={`${API_BASE_URL}/${logoUrl}`}
+                  src={`${API_BASE_URL}${logoUrl}`}
                   className="h-36 w-36" // Aumentei a logo
                   alt="Logo"
                 />
