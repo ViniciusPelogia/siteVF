@@ -19,7 +19,7 @@ app.use(cors({
 
 // Servir imagens e uploads
 app.use('/uploads', express.static(path.join(__dirname, '../api/uploads')));
-console.log('Servindo imagens de:', path.join(__dirname, 'api/uploads'));
+console.log('Servindo imagens de:', path.join(__dirname, '../api/uploads'));
 
 // ✅ Aplicar o prefixo /api a TODAS as rotas
 app.use("/api", routes);
@@ -27,6 +27,10 @@ app.use("/api", routes);
 // Servir arquivos estáticos do React
 app.use(express.static(path.join(__dirname, "../../build")));
 
+app.get('/test-upload-path', (req, res) => {
+  const dir = path.join(__dirname, '../api/uploads');
+  res.send(`Path para uploads: ${dir}`);
+});
 
 // Rota fallback para React Router (SPA), mas ignora /uploads
 app.get(/^\/(?!uploads|api).*/, (req, res) => {
