@@ -89,12 +89,10 @@ const DetalhesProduto = () => {
                   <div className="relative">
                     <img
                       className="w-full h-96 object-cover rounded-lg border border-gray-200"
-                      src={`${API_BASE_URL}/${
-                        imagensFiltradas[imagemAtual].imagem?.caminho ||
-                        imagensFiltradas[imagemAtual].caminho
-                      }`}
+                      src={`${API_BASE_URL}${imagensFiltradas[imagemAtual].caminho}`}
                       alt={`Imagem ${imagemAtual + 1}`}
                     />
+
                     <button
                       onClick={handleImagemAnterior}
                       className="absolute left-2 p-2 transform -translate-y-1/2 bg-green-600 rounded-full text-white top-1/2 hover:bg-green-700"
@@ -131,9 +129,7 @@ const DetalhesProduto = () => {
                                 ? "border-green-600"
                                 : "border-gray-300"
                             }`}
-                            src={`${API_BASE_URL}/${
-                              img.imagem?.caminho || img.caminho
-                            }`}
+                            src={`${API_BASE_URL}${img.caminho}`}
                             alt={`Miniatura ${index + 1}`}
                             onClick={() =>
                               handleThumbnailClick(
