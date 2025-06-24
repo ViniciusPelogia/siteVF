@@ -119,72 +119,54 @@ module.exports = class ProdutoController {
   static async buscaProdutoPorId(req, res) {
     const { id } = req.params;
     try {
-      const produto = await database.produtos.findOne({
-        where: { id },
-      });
-
-      if (!produto) {
-        return res.status(404).json({ message: "Produto não encontrado" });
-      }
-
-      // 1. Buscar relações na tabela imagensxprodutos
-      const imagensxprodutos = await database.imagensxprodutos.findAll({
-        where: { product_id: id },
-      });
-
-      // 2. Para cada relação, buscar a imagem e montar objeto { cor_id, caminho }
+      const produto = await database.produtos.findOne({ where: { id } });
+      if (!produto) return res.status(404).json({ message: "Produto não encontrado" });
+  
+      const imagensxprodutos = await database.imagensxprodutos.findAll({ where: { product_id: id } });
+  
       const imagensComCor = await Promise.all(
         imagensxprodutos.map(async (rel) => {
           const imagem = await database.imagens.findOne({
             where: { id: rel.imagem_id },
-            attributes: ["caminho"],
+            attributes: ["caminho"]
           });
-
-          if (!imagem) return null; // caso não encontre a imagem
-
+          if (!imagem) return null;
+  
+          // aqui garantimos que `caminho` fique no formato "/uploads/xxx.ext"
+          const fileName = path.basename(imagem.caminho);
           return {
-            cor_id: rel.cor_id, // importante
-            caminho: imagem.caminho.replace(/\\/g, "/"), // corrigir backslash
+            cor_id: rel.cor_id,
+            caminho: `/uploads/${fileName}`
           };
         })
       );
-
-      // 3. (Opcional) Se você também quer retornar as cores do produto,
-      //    faça uma busca na tabela produtosxcores e monte um array.
-      //    Aqui vai um exemplo simples:
-      const relacoesDeCores = await database.produtosxcores.findAll({
-        where: { product_id: id },
-      });
-
+  
+      // busca de cores (igual você já faz)
+      const relacoesDeCores = await database.produtosxcores.findAll({ where: { product_id: id } });
       const coresDoProduto = await Promise.all(
         relacoesDeCores.map(async (rel) => {
           const cor = await database.cores.findOne({
             where: { id: rel.cor_id },
-            attributes: ["id", "nome", "codigo_hex"],
+            attributes: ["id", "nome", "codigo_hex"]
           });
-          return cor; // cor ou null
+          return cor;
         })
       );
-
-      const resultado = {
+  
+      return res.json({
         id: produto.id,
         nome: produto.nome,
         detalhes: produto.detalhes,
         descricao: produto.descricao,
-
-        // 4. Aqui, ao invés de 'imagens', retorne 'imagensxprodutos'
-        //    contendo objetos { cor_id, caminho }
         imagensxprodutos: imagensComCor.filter(Boolean),
-
-        // 5. Retorne as cores associadas
-        cores: coresDoProduto.filter(Boolean),
-      };
-
-      res.status(200).json(resultado);
+        cores: coresDoProduto.filter(Boolean)
+      });
+  
     } catch (error) {
-      res.status(400).json(error.message);
+      return res.status(400).json({ message: error.message });
     }
   }
+  
 
   static async buscaCor(req, res) {
     const produtoId = req.params.id;
