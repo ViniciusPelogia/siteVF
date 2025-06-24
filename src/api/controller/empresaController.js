@@ -103,6 +103,7 @@ module.exports = class empresaController {
     }
   }
 
+
   static async buscaEmpresa(req, res) {
     try {
       const empresa = await database.empresa.findByPk(
@@ -111,23 +112,23 @@ module.exports = class empresaController {
       if (!empresa) {
         return res.status(404).json({ message: "Empresa não encontrada" });
       }
-
+  
       const imagensxempresa = await database.imagensxempresa.findAll({
         where: { empresa_id: empresa.id },
       });
-
+  
       const imagens = await Promise.all(
         imagensxempresa.map(async (ip) => {
           const imagem = await database.imagens.findOne({
             where: { id: ip.imagem_id },
             attributes: ["caminho"],
           });
-          return imagem
-            ? path.basename(imagem.caminho).replace(/\\/g, "/")
-            : null;
+          if (!imagem) return null;
+          const fileName = path.basename(imagem.caminho);
+          return `/uploads/${fileName}`;
         })
       );
-
+  
       const resultado = {
         empresa: {
           id: empresa.id,
@@ -138,16 +139,19 @@ module.exports = class empresaController {
           endereco: empresa.endereco,
           cnpj: empresa.cnpj,
           email: empresa.email,
-          logo: empresa.logo ? empresa.logo.replace(/\\/g, "/") : null,
+          logo: empresa.logo
+            ? `/uploads/${path.basename(empresa.logo)}`
+            : null,
         },
-        imagens: imagens.filter((caminho) => caminho !== null),
+        imagens: imagens.filter(Boolean),
       };
-
+  
       res.status(200).json(resultado);
     } catch (error) {
       res.status(400).json({ message: error.message });
     }
   }
+  
 
   static async atualizaEmpresa(req, res) {
     const { id } = req.params;
